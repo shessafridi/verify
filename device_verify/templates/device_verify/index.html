@@ -1,0 +1,68 @@
+{% extends "device_verify/base.html" %}
+{% load static %}
+
+
+{% block content %}
+<main class="wrapper">
+    <section class="container text-center px-4 py-5">
+        <div class="jumbotron my-shadow-st">
+            <h1 class="light-w">Verified Devices</h1>
+            <br>
+            <h5>Total Number of Devices: <strong class="">{{online}}/{{count}}</strong></h5> 
+        </div>
+    
+    </section>
+    
+    <section class="container all-container mt-2">
+    
+       
+            <form class="form-inline" method="GET">
+                {% csrf_token %}
+                <input class="serach-box form-control " type="text" name="mac" placeholder="Search by MAC">
+                <input class="search-btn btn btn-primary" type="submit" value="Search">
+            </form>
+    
+    
+        <br>
+        <ul class="list-group">
+            {% for device in devices %}
+            <li class="list-group-item my-shadow my-card">
+                <div>
+                    <h2 class="main-h">
+                        {{device.name}} - <small class="text-muted">{{device.owner_name}}</small>
+                    </h2>
+                    
+                    {% if device.online %}
+                      <h6 class="green">Working</h6>
+                    {% else %}
+                    <h6 class="red">Not Whitelisted</h6>
+                    {% endif %}
+                    <hr>
+                    <p>Mac Address is <span class="green">{{device.mac_address|upper}}</span></p>
+                    <p>Router Name is <span class="blue">{{device.router_name}}</span></p>
+                </div>
+    
+            </li>
+            <br>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
+
+
+<!--
+<section class="my-img container">
+    <div class="row">
+
+        <div class="col-sm-12 my-flex">
+            <h4>A software by</h4>
+            <img class="img-responsive logo" src="{% static 'device_verify/images/logo.png' %}" alt="Shess Afrid Logo">
+
+        </div>
+
+
+    </div>
+
+</section>
+-->
+{% endblock content %}
